@@ -1,111 +1,100 @@
-# QueueLess — Smart Canteen Pre-Order System
+<div align="center">
+  <img src="./client/public/logo.png" alt="Brunch Logo" width="120" />
+  <h1>Brunch</h1>
+  <p><strong>A Modern, Smart Canteen Pre-Order System built for Universities</strong></p>
+</div>
 
-QueueLess is a modern full-stack web application designed for college canteens. It allows students to browse the menu, place orders in advance, track their order status, and pick up their food without waiting in long queues. Admins have a dedicated dashboard to manage menu items and update order statuses in real-time.
+<br />
 
-## Features
+![Landing Page](./langing.png)
 
-**For Students:**
-- Secure signup and login
-- Browse menu with search and category filters
-- Add items to cart and place orders
-- Receive an auto-generated token number
-- Real-time order status tracking (Pending -> Preparing -> Ready -> Completed)
-- View estimated waiting time and order history
-- Mobile-friendly responsive UI
+## 📌 Overview
 
-**For Admins:**
-- Dashboard with live statistics (Total Orders, Pending, Completed, Revenue)
-- Manage Menu (Add, Edit, Delete food items)
-- Manage Orders (Update status, view details)
+**Brunch** is a full-stack, responsive web application that eliminates the hassle of long queues in college canteens. Built with a sleek, premium, mobile-first design (featuring a signature Maroon and Gold UI), it empowers students to order food directly from their phones during lectures, track the live status of their order, and pick it up exactly when it's ready. 
 
-## Tech Stack
+Admins receive a dedicated, real-time dashboard to manage orders, update statuses, and maintain the live menu.
 
-- **Frontend:** React, Vite, Tailwind CSS (v4), React Router, Axios, Lucide React
-- **Backend:** Node.js, Express.js, MongoDB, Mongoose, JWT, bcryptjs
-- **Architecture:** Monorepo structure
+---
 
-## Prerequisites
+## 🏛 Architecture
 
-- Node.js (v18 or higher recommended)
-- MongoDB (Local instance or MongoDB Atlas cluster)
+![Architecture Diagram](./Arcdiagram.png)
 
-## Setup and Execution
+Brunch is designed as a **Monolithic Web Service** for seamless, rapid deployment (optimized for platforms like Render). 
 
-### 1. Environment Variables
+- **Frontend:** React (Vite)
+- **Backend:** Node.js, Express.js (Serving REST APIs and compiled React static files)
+- **Database:** In-memory MongoDB (using MongoMemoryServer for rapid hackathon/demo deployments)
 
-Create `.env` files in both the `client` and `server` directories based on the provided `.env.example` files.
+---
 
-**Server (`server/.env`):**
-```env
-PORT=5001
-MONGO_URI=mongodb://localhost:27017/queueless
-JWT_SECRET=your_jwt_secret_key
-NODE_ENV=development
-```
-*(Make sure MongoDB is running locally on port 27017 or use an Atlas URI)*
+## ✨ Key Features
 
-**Client (`client/.env`):**
-```env
-VITE_API_URL=http://localhost:5001
-```
+### 🎓 For Students
+* **Mobile-First Experience:** A beautiful, App-like interface with a bottom navigation bar.
+* **Live Menu:** Browse categories and search for your favorite meals.
+* **Cart & Pre-Order:** Add items to cart and place orders instantly to generate a live tracking token.
+* **Real-time Tracking:** Watch your order move from `Pending` ➔ `Preparing` ➔ `Ready`!
 
-### 2. Quick Start (Recommended)
+![Food Catalog](./Foodcatelog.png)
 
-To run the entire project (backend, frontend, and database seeding) with a single command, open a terminal in the root directory and run:
+### 🛡 For Admins
+* **Live Operations Dashboard:** See total revenue, active orders, and completed orders at a glance.
+* **Order Queue Management:** One-click buttons to transition orders through their lifecycle and notify students.
+* **Menu Management:** Fully functional CMS to Add, Edit, or Delete menu items and toggle their availability.
+
+---
+
+## 💻 Tech Stack
+
+* **Frontend:** React, Vite, React Router, Axios, Vanilla CSS (Custom Design System), Lucide React Icons
+* **Backend:** Node.js, Express.js
+* **Database:** MongoDB (Mongoose ORM)
+* **Auth:** JSON Web Tokens (JWT), bcryptjs
+* **Deployment:** Render (Single Monolithic Web Service)
+
+---
+
+## 🚀 Quick Start (Local Development)
+
+### Prerequisites
+- Node.js (v18+)
+
+### 1. Install & Build
+Because Brunch is optimized for a monolithic deployment, you build the frontend first, and then run the backend which serves the UI!
 
 ```bash
-./start.sh
-```
-This script will automatically install dependencies, seed the database, and start both servers concurrently. Press `Ctrl+C` to stop both.
+# Install frontend dependencies and build the UI
+cd client
+npm install
+npm run build
 
-### 3. Manual Setup (Alternative)
-
-#### Backend Setup
-
-Open a terminal and navigate to the `server` directory:
-
-```bash
-cd server
+# Install backend dependencies
+cd ../server
 npm install
 ```
 
-#### Seed the Database (Optional but recommended)
-To populate the database with an admin user and sample menu items, run:
+### 2. Seed the Database
+Since the app uses an in-memory database for demonstrations, you must seed it with the default menu and admin user before starting:
+
 ```bash
 npm run seed
 ```
+
 **Default Admin Credentials:**
-- Email: admin@queueless.com
-- Password: password123
+- **Email:** `puneeth@gmail.com`
+- **Password:** `12345`
 
-#### Start the Server
+### 3. Run the App
 ```bash
-npm run dev
+npm start
 ```
-The backend will run on `http://localhost:5001`.
+*The app will automatically run on `http://localhost:5001`. The backend REST API and the React frontend are both served from this single port!*
 
-### 3. Frontend Setup
+---
 
-Open a new terminal and navigate to the `client` directory:
-
-```bash
-cd client
-npm install
-npm run dev
-```
-The frontend will run on `http://localhost:5173`.
-
-## Demo Flow
-1. Login as the admin using the seeded credentials.
-2. View the dashboard and ensure menu items are listed in "Manage Menu".
-3. Open an incognito window, sign up as a new student.
-4. Browse the menu, add items to the cart, and place an order.
-5. Note the generated Token Number and Estimated Wait Time.
-6. Switch back to the admin window, go to "Manage Orders", and change the status of the new order from "Pending" to "Preparing" and then "Ready".
-7. Switch back to the student window to see the real-time status updates!
-
-## Code Quality and Design
-- **Clean UI**: Uses modern Tailwind CSS utility classes and `lucide-react` icons.
-- **Component Reusability**: Common layouts (`StudentLayout`, `AdminLayout`) and protected route components.
-- **Error Handling**: Implemented using `react-hot-toast` for user-friendly notifications.
-- **Security**: Passwords hashed with `bcryptjs`, API endpoints secured with JWT authentication and role-based middleware.
+## 🎨 Design System
+The UI was meticulously crafted from scratch using Vanilla CSS to avoid heavy framework overhead, ensuring lightning-fast load times. It uses a bespoke palette:
+- **Primary:** RUAS Maroon (`#8B1A1A`)
+- **Accent:** Royal Gold (`#D4A017`)
+- **Surfaces:** Clean White (`#FFFFFF`) & Soft Cream (`#F9F5F0`)
