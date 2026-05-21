@@ -1,98 +1,115 @@
 import { useContext } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { Coffee, LayoutDashboard, Utensils, ClipboardList, LogOut } from 'lucide-react';
+import { LayoutDashboard, Utensils, ClipboardList, LogOut } from 'lucide-react';
 
 const AdminLayout = () => {
   const { logout, user } = useContext(AuthContext);
   const location = useLocation();
 
   const navItems = [
-    { path: '/admin/dashboard', icon: <LayoutDashboard className="w-5 h-5" />, label: 'Dashboard' },
-    { path: '/admin/menu', icon: <Utensils className="w-5 h-5" />, label: 'Manage Menu' },
-    { path: '/admin/orders', icon: <ClipboardList className="w-5 h-5" />, label: 'Manage Orders' },
+    { path: '/admin/dashboard', icon: <LayoutDashboard size={20} />, label: 'Dashboard' },
+    { path: '/admin/menu', icon: <Utensils size={20} />, label: 'Manage Menu' },
+    { path: '/admin/orders', icon: <ClipboardList size={20} />, label: 'All Orders' },
   ];
 
   return (
-    <div className="min-h-screen flex bg-gray-50">
-      {/* Sidebar (Desktop) */}
-      <aside className="hidden md:flex flex-col w-64 bg-white border-r shadow-sm">
-        <div className="p-6 flex items-center gap-2 border-b">
-          <Coffee className="h-8 w-8 text-blue-600" />
-          <span className="text-xl font-bold text-gray-900">QueueLess Admin</span>
-        </div>
-        
-        <nav className="flex-1 px-4 py-6 space-y-2">
-          {navItems.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={`flex items-center gap-3 px-4 py-3 rounded-md transition-colors ${
-                location.pathname === item.path
-                  ? 'bg-blue-50 text-blue-600 font-medium'
-                  : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
-              }`}
-            >
-              {item.icon}
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-        
-        <div className="p-4 border-t">
-          <div className="flex items-center justify-between px-4 py-2">
-            <span className="text-sm font-medium text-gray-700 truncate max-w-[120px]">
-              {user?.name}
-            </span>
-            <button
-              onClick={logout}
-              className="p-2 text-gray-500 hover:text-red-600 rounded-md hover:bg-red-50 transition-colors"
-              title="Logout"
-            >
-              <LogOut className="w-5 h-5" />
-            </button>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg)' }}>
+      {/* Top Nav */}
+      <nav style={{
+        background: 'var(--primary)',
+        boxShadow: '0 2px 12px rgba(139,26,26,0.3)',
+        position: 'sticky', top: 0, zIndex: 50
+      }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '60px' }}>
+            {/* Logo */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <img src="/logo.png" alt="Brunch Admin" style={{ height: '34px', width: '34px', objectFit: 'contain' }} />
+              <span style={{ color: 'var(--gold)', fontWeight: 800, fontSize: '1.25rem' }}>Brunch <span style={{fontSize: '0.75rem', verticalAlign: 'middle', color: 'rgba(255,255,255,0.7)', fontWeight: 500}}>ADMIN</span></span>
+            </div>
+
+            {/* Desktop Nav */}
+            <div style={{ display: 'flex', gap: '0.25rem', alignItems: 'center' }} className="desktop-nav">
+              {navItems.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '0.4rem',
+                    padding: '0.5rem 0.875rem', borderRadius: 'var(--radius-sm)',
+                    textDecoration: 'none', fontSize: '0.875rem', fontWeight: 500,
+                    color: location.pathname === item.path ? 'var(--gold)' : 'rgba(255,255,255,0.8)',
+                    background: location.pathname === item.path ? 'rgba(212,160,23,0.15)' : 'transparent',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  {item.icon} {item.label}
+                </Link>
+              ))}
+            </div>
+
+            {/* User + Logout */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.8rem', display: 'none' }} className="user-name">
+                {user?.name}
+              </span>
+              <button
+                onClick={logout}
+                title="Logout"
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '0.4rem',
+                  background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
+                  color: 'white', padding: '0.4rem 0.75rem', borderRadius: 'var(--radius-sm)',
+                  cursor: 'pointer', fontSize: '0.8rem', fontWeight: 500, fontFamily: 'Inter, sans-serif'
+                }}
+              >
+                <LogOut size={15} /> Logout
+              </button>
+            </div>
           </div>
         </div>
-      </aside>
+      </nav>
 
-      {/* Mobile Header & Content Wrapper */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        {/* Mobile Header */}
-        <header className="md:hidden bg-white border-b shadow-sm flex items-center justify-between p-4 sticky top-0 z-10">
-          <div className="flex items-center gap-2">
-            <Coffee className="h-6 w-6 text-blue-600" />
-            <span className="text-lg font-bold text-gray-900">Admin</span>
-          </div>
-          <button onClick={logout} className="p-2 text-gray-500 hover:text-red-600">
-            <LogOut className="w-5 h-5" />
-          </button>
-        </header>
-
-        {/* Mobile Nav */}
-        <nav className="md:hidden bg-white border-b flex overflow-x-auto">
-          {navItems.map((item) => (
-            <Link
-              key={item.path}
-              to={item.path}
-              className={`flex items-center gap-2 px-4 py-3 whitespace-nowrap border-b-2 text-sm font-medium ${
-                location.pathname === item.path
-                  ? 'border-blue-600 text-blue-600'
-                  : 'border-transparent text-gray-600'
-              }`}
-            >
-              {item.icon}
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-
-        {/* Main Content */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-8">
-          <div className="max-w-7xl mx-auto">
-            <Outlet />
-          </div>
-        </main>
+      {/* Mobile Bottom Nav */}
+      <div style={{
+        display: 'flex', position: 'fixed', bottom: 0, left: 0, right: 0,
+        background: 'var(--primary)', zIndex: 50, boxShadow: '0 -2px 12px rgba(139,26,26,0.3)'
+      }} className="mobile-nav">
+        {navItems.map((item) => (
+          <Link
+            key={item.path}
+            to={item.path}
+            style={{
+              flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center',
+              justifyContent: 'center', padding: '0.75rem 0.5rem', textDecoration: 'none',
+              color: location.pathname === item.path ? 'var(--gold)' : 'rgba(255,255,255,0.6)',
+              fontSize: '0.65rem', fontWeight: 600, gap: '0.3rem',
+              borderTop: location.pathname === item.path ? '2px solid var(--gold)' : '2px solid transparent',
+              transition: 'all 0.2s'
+            }}
+          >
+            {item.icon}
+            {item.label}
+          </Link>
+        ))}
       </div>
+
+      {/* Main Content */}
+      <main style={{ flex: 1, maxWidth: '1200px', width: '100%', margin: '0 auto', padding: '1.5rem 1rem 5rem 1rem' }}>
+        <Outlet />
+      </main>
+
+      <style>{`
+        @media (min-width: 640px) {
+          .mobile-nav { display: none !important; }
+          .desktop-nav { display: flex !important; }
+          .user-name { display: block !important; }
+        }
+        @media (max-width: 639px) {
+          .desktop-nav { display: none !important; }
+        }
+      `}</style>
     </div>
   );
 };

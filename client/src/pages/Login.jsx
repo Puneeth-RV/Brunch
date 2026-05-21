@@ -1,11 +1,12 @@
 import { useState, useContext, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { Coffee, Loader2 } from 'lucide-react';
+import { Loader2, Eye, EyeOff } from 'lucide-react';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPw, setShowPw] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { login } = useContext(AuthContext);
 
@@ -27,74 +28,89 @@ const Login = () => {
   };
 
   return (
-    <div className="flex min-h-screen flex-1 flex-col justify-center px-6 py-12 lg:px-8 bg-gray-50">
-      <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <Link to="/" className="flex justify-center items-center gap-2">
-          <Coffee className="h-10 w-10 text-blue-600" />
-          <span className="text-3xl font-bold text-gray-900">QueueLess</span>
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', display: 'flex', flexDirection: 'column' }}>
+      {/* Header */}
+      <div style={{ background: 'var(--primary)', padding: '1rem', display: 'flex', justifyContent: 'center' }}>
+        <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
+          <img src="/logo.png" alt="Brunch" style={{ height: '36px', width: '36px', objectFit: 'contain' }} />
+          <span style={{ color: 'var(--gold)', fontWeight: 800, fontSize: '1.5rem' }}>Brunch</span>
         </Link>
-        <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-          Sign in to your account
-        </h2>
       </div>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form className="space-y-6" onSubmit={handleSubmit}>
-          <div>
-            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-              Email address
-            </label>
-            <div className="mt-2">
-              <input
-                id="email"
-                name="email"
-                type="email"
-                autoComplete="email"
-                required
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 px-3 bg-white"
-              />
+      {/* Form Container */}
+      <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '2rem 1rem' }}>
+        <div style={{ width: '100%', maxWidth: '420px' }}>
+          <div className="card" style={{ padding: '2rem' }}>
+            <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+              <h1 style={{ fontSize: '1.75rem', fontWeight: 800, color: 'var(--primary)' }}>Welcome back</h1>
+              <p style={{ color: 'var(--text-muted)', marginTop: '0.5rem', fontSize: '0.9rem' }}>Sign in to your Brunch account</p>
             </div>
-          </div>
 
-          <div>
-            <div className="flex items-center justify-between">
-              <label htmlFor="password" className="block text-sm font-medium leading-6 text-gray-900">
-                Password
-              </label>
-            </div>
-            <div className="mt-2">
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6 px-3 bg-white"
-              />
-            </div>
-          </div>
+            <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+              <div>
+                <label style={{ display: 'block', fontWeight: 600, fontSize: '0.875rem', color: 'var(--text)', marginBottom: '0.5rem' }}>
+                  Email Address
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  className="form-input"
+                  placeholder="you@example.com"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
 
-          <div>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="flex w-full justify-center rounded-md bg-blue-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:opacity-50"
-            >
-              {isSubmitting ? <Loader2 className="animate-spin h-5 w-5" /> : 'Sign in'}
-            </button>
-          </div>
-        </form>
+              <div>
+                <label style={{ display: 'block', fontWeight: 600, fontSize: '0.875rem', color: 'var(--text)', marginBottom: '0.5rem' }}>
+                  Password
+                </label>
+                <div style={{ position: 'relative' }}>
+                  <input
+                    id="password"
+                    type={showPw ? 'text' : 'password'}
+                    className="form-input"
+                    placeholder="••••••••"
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    style={{ paddingRight: '3rem' }}
+                  />
+                  <button
+                    type="button"
+                    onClick={() => setShowPw(!showPw)}
+                    style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}
+                  >
+                    {showPw ? <EyeOff size={18} /> : <Eye size={18} />}
+                  </button>
+                </div>
+              </div>
 
-        <p className="mt-10 text-center text-sm text-gray-500">
-          Not a member?{' '}
-          <Link to="/signup" className="font-semibold leading-6 text-blue-600 hover:text-blue-500">
-            Create an account
-          </Link>
-        </p>
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                style={{
+                  width: '100%', padding: '0.875rem',
+                  background: isSubmitting ? 'var(--primary-light)' : 'var(--primary)',
+                  color: 'white', border: 'none', borderRadius: 'var(--radius-sm)',
+                  fontWeight: 700, fontSize: '1rem', cursor: isSubmitting ? 'not-allowed' : 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem',
+                  transition: 'all 0.2s', fontFamily: 'Inter, sans-serif'
+                }}
+              >
+                {isSubmitting ? <><Loader2 size={18} className="spinner" /> Signing in...</> : 'Sign In'}
+              </button>
+            </form>
+
+            <p style={{ textAlign: 'center', marginTop: '1.5rem', fontSize: '0.875rem', color: 'var(--text-muted)' }}>
+              Don't have an account?{' '}
+              <Link to="/signup" style={{ color: 'var(--primary)', fontWeight: 600, textDecoration: 'none' }}>
+                Create one
+              </Link>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );

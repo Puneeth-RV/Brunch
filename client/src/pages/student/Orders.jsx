@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import toast from 'react-hot-toast';
-import { Clock, CheckCircle2, ChefHat, Loader2, Package, ArrowRight } from 'lucide-react';
+import { Loader2, ArrowRight, ClipboardList } from 'lucide-react';
 
 const Orders = () => {
   const [orders, setOrders] = useState([]);
@@ -11,10 +10,10 @@ const Orders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const { data } = await axios.get('/api/orders/my');
+        const { data } = await axios.get('/api/orders/myorders');
         setOrders(data);
       } catch (error) {
-        toast.error('Failed to fetch orders');
+        console.error('Failed to load orders', error);
       } finally {
         setLoading(false);
       }
@@ -22,41 +21,23 @@ const Orders = () => {
     fetchOrders();
   }, []);
 
-  const getStatusConfig = (status) => {
-    switch (status) {
-      case 'Pending':
-        return { icon: <Clock className="w-5 h-5" />, color: 'text-yellow-600', bg: 'bg-yellow-50', border: 'border-yellow-200' };
-      case 'Preparing':
-        return { icon: <ChefHat className="w-5 h-5" />, color: 'text-orange-600', bg: 'bg-orange-50', border: 'border-orange-200' };
-      case 'Ready':
-        return { icon: <Package className="w-5 h-5" />, color: 'text-blue-600', bg: 'bg-blue-50', border: 'border-blue-200' };
-      case 'Completed':
-        return { icon: <CheckCircle2 className="w-5 h-5" />, color: 'text-green-600', bg: 'bg-green-50', border: 'border-green-200' };
-      default:
-        return { icon: <Clock className="w-5 h-5" />, color: 'text-gray-600', bg: 'bg-gray-50', border: 'border-gray-200' };
-    }
-  };
-
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
+        <Loader2 size={32} className="spinner" style={{ color: 'var(--primary)' }} />
       </div>
     );
   }
 
   if (orders.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center h-full py-20 text-center">
-        <div className="bg-gray-100 p-6 rounded-full mb-4">
-          <Clock className="w-12 h-12 text-gray-400" />
+      <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '60vh', textAlign: 'center' }}>
+        <div style={{ background: 'var(--surface-2)', padding: '2rem', borderRadius: '50%', marginBottom: '1.5rem', color: 'var(--text-muted)' }}>
+          <ClipboardList size={48} />
         </div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">No orders yet</h2>
-        <p className="text-gray-500 mb-6">You haven't placed any orders. Browse the menu to get started.</p>
-        <Link 
-          to="/student/menu" 
-          className="bg-blue-600 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-500 transition-colors"
-        >
+        <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text)', marginBottom: '0.5rem' }}>No orders yet</h2>
+        <p style={{ color: 'var(--text-muted)', marginBottom: '2rem' }}>You haven't placed any orders yet.</p>
+        <Link to="/student/menu" className="btn-primary" style={{ textDecoration: 'none' }}>
           Browse Menu
         </Link>
       </div>
@@ -64,48 +45,50 @@ const Orders = () => {
   }
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      <h1 className="text-2xl font-bold text-gray-900">Your Orders</h1>
+    <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+      <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--primary)' }}>My Orders</h1>
 
-      <div className="space-y-4">
-        {orders.map(order => {
-          const status = getStatusConfig(order.status);
-          const date = new Date(order.createdAt).toLocaleString();
-          
-          return (
-            <Link 
-              key={order._id} 
-              to={`/student/orders/${order._id}`}
-              className="block bg-white p-5 rounded-xl shadow-sm border hover:shadow-md transition-shadow group"
-            >
-              <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-4">
-                <div className="flex items-center gap-4">
-                  <div className={`p-3 rounded-lg ${status.bg} ${status.color} border ${status.border}`}>
-                    {status.icon}
-                  </div>
-                  <div>
-                    <h3 className="font-bold text-gray-900 text-lg">Token: {order.tokenNumber}</h3>
-                    <p className="text-sm text-gray-500">{date}</p>
-                  </div>
-                </div>
-                <div className="flex items-center justify-between sm:justify-end gap-4">
-                  <span className={`px-3 py-1 rounded-full text-sm font-medium ${status.bg} ${status.color} border ${status.border}`}>
-                    {order.status}
-                  </span>
-                  <div className="font-bold text-gray-900">₹{order.totalAmount}</div>
-                </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        {orders.map(order => (
+          <div key={order._id} className="card" style={{ padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }} className="sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.5rem' }}>
+                <span style={{ fontWeight: 800, fontSize: '1.125rem' }}>Order #{order._id.substring(order._id.length - 6).toUpperCase()}</span>
+                <span className={`badge badge-${order.status.toLowerCase()}`}>
+                  {order.status}
+                </span>
               </div>
               
-              <div className="border-t pt-4 flex justify-between items-center text-sm text-gray-600">
-                <div className="truncate pr-4">
-                  {order.items.map(item => `${item.quantity}x ${item.name}`).join(', ')}
-                </div>
-                <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition-colors shrink-0" />
+              <div style={{ color: 'var(--text-muted)', fontSize: '0.875rem', marginBottom: '0.5rem' }}>
+                {new Date(order.createdAt).toLocaleString()}
               </div>
-            </Link>
-          );
-        })}
+
+              <div style={{ fontSize: '0.9rem' }}>
+                {order.items.map(item => item.menuItem.name).join(', ')}
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginTop: '1rem', gap: '2rem' }} className="sm:mt-0 sm:flex-col sm:align-end sm:gap-0.5rem">
+              <div style={{ fontWeight: 800, color: 'var(--gold)', fontSize: '1.25rem' }}>
+                ₹{order.totalAmount}
+              </div>
+              <Link to={`/student/orders/${order._id}`} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', color: 'var(--primary)', fontWeight: 600, textDecoration: 'none', fontSize: '0.875rem' }}>
+                View Status <ArrowRight size={16} />
+              </Link>
+            </div>
+          </div>
+        ))}
       </div>
+      <style>{`
+        @media (min-width: 640px) {
+          .sm\\:flex-row { flex-direction: row !important; }
+          .sm\\:items-center { align-items: center !important; }
+          .sm\\:justify-between { justify-content: space-between !important; }
+          .sm\\:mt-0 { margin-top: 0 !important; }
+          .sm\\:flex-col { flex-direction: column !important; }
+          .sm\\:align-end { align-items: flex-end !important; }
+        }
+      `}</style>
     </div>
   );
 };

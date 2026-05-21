@@ -1,88 +1,124 @@
 import { Link } from 'react-router-dom';
-import { Coffee, ArrowRight, Clock, Smartphone, CheckCircle } from 'lucide-react';
+import { ArrowRight, Clock, Smartphone, CheckCircle } from 'lucide-react';
 
 const Landing = () => {
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen" style={{ background: 'var(--bg)' }}>
       {/* Navbar */}
-      <nav className="flex items-center justify-between p-6 lg:px-8 max-w-7xl mx-auto">
-        <div className="flex items-center gap-2">
-          <Coffee className="h-8 w-8 text-blue-600" />
-          <span className="text-2xl font-bold text-gray-900">QueueLess</span>
-        </div>
-        <div className="flex gap-4">
-          <Link to="/login" className="text-sm font-semibold leading-6 text-gray-900 px-3 py-2 hover:bg-gray-50 rounded-md">
-            Log in
-          </Link>
-          <Link to="/signup" className="text-sm font-semibold leading-6 text-white bg-blue-600 hover:bg-blue-500 px-4 py-2 rounded-md transition-colors">
-            Sign up
-          </Link>
+      <nav style={{
+        background: 'var(--primary)',
+        boxShadow: '0 2px 12px rgba(139,26,26,0.3)',
+        position: 'sticky',
+        top: 0,
+        zIndex: 50
+      }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '64px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <img src="/logo.png" alt="Brunch Logo" style={{ height: '40px', width: '40px', objectFit: 'contain' }} />
+              <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--gold)', letterSpacing: '-0.5px' }}>Brunch</span>
+            </div>
+            <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <Link to="/login" style={{
+                color: 'white',
+                textDecoration: 'none',
+                fontWeight: 500,
+                fontSize: '0.875rem',
+                padding: '0.5rem 1rem',
+                borderRadius: 'var(--radius-sm)',
+                border: '1px solid rgba(255,255,255,0.3)',
+                transition: 'all 0.2s'
+              }}>Log in</Link>
+              <Link to="/signup" style={{
+                background: 'var(--gold)',
+                color: 'white',
+                textDecoration: 'none',
+                fontWeight: 600,
+                fontSize: '0.875rem',
+                padding: '0.5rem 1.25rem',
+                borderRadius: 'var(--radius-sm)',
+                transition: 'all 0.2s'
+              }}>Sign up</Link>
+            </div>
+          </div>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <div className="relative px-6 pt-14 lg:px-8 max-w-7xl mx-auto">
-        <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-32">
-          <div className="text-center">
-            <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              Smart Canteen Pre-Order System
-            </h1>
-            <p className="mt-6 text-lg leading-8 text-gray-600">
-              Skip the lines and save time. Pre-order your meals from the college canteen, track the status in real-time, and pick up exactly when it's ready.
-            </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <Link
-                to="/signup"
-                className="flex items-center gap-2 rounded-md bg-blue-600 px-5 py-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 transition-all"
-              >
-                Get Started <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
+      {/* Hero */}
+      <div style={{
+        background: 'linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%)',
+        padding: '5rem 1rem',
+        textAlign: 'center'
+      }}>
+        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem' }}>
+            <img src="/logo.png" alt="Brunch" style={{ height: '80px', width: '80px', objectFit: 'contain' }} />
+          </div>
+          <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800, color: 'white', lineHeight: 1.2, marginBottom: '1rem' }}>
+            Welcome to <span style={{ color: 'var(--gold)' }}>Brunch</span>
+          </h1>
+          <p style={{ fontSize: 'clamp(1rem, 2vw, 1.2rem)', color: 'rgba(255,255,255,0.85)', lineHeight: 1.7, marginBottom: '2.5rem' }}>
+            Skip the queue. Pre-order your meals from the college canteen, track status in real-time, and pick up when it's ready.
+          </p>
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link to="/signup" style={{
+              display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
+              background: 'var(--gold)', color: 'white', textDecoration: 'none',
+              fontWeight: 700, fontSize: '1rem', padding: '0.875rem 2rem',
+              borderRadius: 'var(--radius)', boxShadow: '0 4px 16px rgba(212,160,23,0.4)',
+              transition: 'all 0.2s'
+            }}>
+              Get Started <ArrowRight size={18} />
+            </Link>
+            <Link to="/login" style={{
+              display: 'inline-flex', alignItems: 'center', gap: '0.5rem',
+              background: 'transparent', color: 'white', textDecoration: 'none',
+              fontWeight: 600, fontSize: '1rem', padding: '0.875rem 2rem',
+              borderRadius: 'var(--radius)', border: '2px solid rgba(255,255,255,0.4)',
+              transition: 'all 0.2s'
+            }}>
+              Sign In
+            </Link>
           </div>
         </div>
       </div>
 
       {/* Features */}
-      <div className="bg-gray-50 py-24 sm:py-32">
-        <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl lg:text-center">
-            <h2 className="text-base font-semibold leading-7 text-blue-600">Order Faster</h2>
-            <p className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Everything you need for a better lunch break
-            </p>
-          </div>
-          <div className="mx-auto mt-16 max-w-2xl sm:mt-20 lg:mt-24 lg:max-w-4xl">
-            <dl className="grid max-w-xl grid-cols-1 gap-x-8 gap-y-10 lg:max-w-none lg:grid-cols-3 lg:gap-y-16">
-              <div className="relative pl-16">
-                <dt className="text-base font-semibold leading-7 text-gray-900">
-                  <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600">
-                    <Smartphone className="h-6 w-6 text-white" />
-                  </div>
-                  Order from anywhere
-                </dt>
-                <dd className="mt-2 text-base leading-7 text-gray-600">Browse the menu and place your order right from your phone before your class ends.</dd>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '4rem 1rem' }}>
+        <h2 style={{ textAlign: 'center', fontSize: 'clamp(1.5rem, 3vw, 2rem)', fontWeight: 700, color: 'var(--primary)', marginBottom: '0.5rem' }}>
+          Why Brunch?
+        </h2>
+        <p style={{ textAlign: 'center', color: 'var(--text-muted)', marginBottom: '3rem', fontSize: '1rem' }}>
+          A smarter way to eat at your college canteen
+        </p>
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+          gap: '1.5rem'
+        }}>
+          {[
+            { icon: <Smartphone size={28} />, title: 'Order Anywhere', desc: 'Browse the full menu and place your order right from your phone before class even ends.' },
+            { icon: <Clock size={28} />, title: 'Track Real-Time', desc: 'Get live updates as your order goes from Pending → Preparing → Ready for pickup.' },
+            { icon: <CheckCircle size={28} />, title: 'Easy Pickup', desc: 'Just show your token number at the counter when your food is ready. No waiting in line!' }
+          ].map((f, i) => (
+            <div key={i} className="card" style={{ padding: '2rem', textAlign: 'center' }}>
+              <div style={{
+                display: 'inline-flex', padding: '1rem',
+                background: 'linear-gradient(135deg, var(--primary), var(--primary-light))',
+                borderRadius: 'var(--radius)', color: 'white', marginBottom: '1rem'
+              }}>
+                {f.icon}
               </div>
-              <div className="relative pl-16">
-                <dt className="text-base font-semibold leading-7 text-gray-900">
-                  <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600">
-                    <Clock className="h-6 w-6 text-white" />
-                  </div>
-                  Save time
-                </dt>
-                <dd className="mt-2 text-base leading-7 text-gray-600">Get an estimated wait time and real-time updates on your order status so you never wait in line.</dd>
-              </div>
-              <div className="relative pl-16">
-                <dt className="text-base font-semibold leading-7 text-gray-900">
-                  <div className="absolute left-0 top-0 flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600">
-                    <CheckCircle className="h-6 w-6 text-white" />
-                  </div>
-                  Easy Pickup
-                </dt>
-                <dd className="mt-2 text-base leading-7 text-gray-600">Just show your auto-generated token number at the counter when your food is ready.</dd>
-              </div>
-            </dl>
-          </div>
+              <h3 style={{ fontSize: '1.125rem', fontWeight: 700, color: 'var(--text)', marginBottom: '0.5rem' }}>{f.title}</h3>
+              <p style={{ color: 'var(--text-muted)', lineHeight: 1.6, fontSize: '0.9rem' }}>{f.desc}</p>
+            </div>
+          ))}
         </div>
+      </div>
+
+      {/* Footer */}
+      <div style={{ background: 'var(--primary)', padding: '1.5rem', textAlign: 'center' }}>
+        <p style={{ color: 'rgba(255,255,255,0.6)', fontSize: '0.875rem' }}>© 2025 Brunch — Smart Canteen Pre-Order System</p>
       </div>
     </div>
   );

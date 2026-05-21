@@ -1,88 +1,115 @@
 import { useContext } from 'react';
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import { AuthContext } from '../context/AuthContext';
-import { Coffee, Menu, ShoppingCart, Clock, LogOut } from 'lucide-react';
+import { UtensilsCrossed, ShoppingCart, ClipboardList, LogOut } from 'lucide-react';
 
 const StudentLayout = () => {
   const { logout, user } = useContext(AuthContext);
   const location = useLocation();
 
   const navItems = [
-    { path: '/student/menu', icon: <Menu className="w-5 h-5" />, label: 'Menu' },
-    { path: '/student/cart', icon: <ShoppingCart className="w-5 h-5" />, label: 'Cart' },
-    { path: '/student/orders', icon: <Clock className="w-5 h-5" />, label: 'Orders' },
+    { path: '/student/menu', icon: <UtensilsCrossed size={20} />, label: 'Menu' },
+    { path: '/student/cart', icon: <ShoppingCart size={20} />, label: 'My Cart' },
+    { path: '/student/orders', icon: <ClipboardList size={20} />, label: 'My Orders' },
   ];
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
-      {/* Navbar */}
-      <nav className="bg-white shadow-sm border-b sticky top-0 z-10">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex">
-              <div className="flex-shrink-0 flex items-center gap-2">
-                <Coffee className="h-8 w-8 text-blue-600" />
-                <span className="text-xl font-bold text-gray-900">QueueLess</span>
-              </div>
-              <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-                {navItems.map((item) => (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    className={`inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium ${
-                      location.pathname === item.path
-                        ? 'border-blue-500 text-gray-900'
-                        : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-                    }`}
-                  >
-                    <span className="flex items-center gap-2">
-                      {item.icon}
-                      {item.label}
-                    </span>
-                  </Link>
-                ))}
-              </div>
+    <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg)' }}>
+      {/* Top Nav */}
+      <nav style={{
+        background: 'var(--primary)',
+        boxShadow: '0 2px 12px rgba(139,26,26,0.3)',
+        position: 'sticky', top: 0, zIndex: 50
+      }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '60px' }}>
+            {/* Logo */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+              <img src="/logo.png" alt="Brunch" style={{ height: '34px', width: '34px', objectFit: 'contain' }} />
+              <span style={{ color: 'var(--gold)', fontWeight: 800, fontSize: '1.25rem' }}>Brunch</span>
             </div>
-            <div className="flex items-center">
-              <span className="hidden sm:block text-sm font-medium text-gray-500 mr-4">
+
+            {/* Desktop Nav */}
+            <div style={{ display: 'flex', gap: '0.25rem', alignItems: 'center' }} className="desktop-nav">
+              {navItems.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: '0.4rem',
+                    padding: '0.5rem 0.875rem', borderRadius: 'var(--radius-sm)',
+                    textDecoration: 'none', fontSize: '0.875rem', fontWeight: 500,
+                    color: location.pathname === item.path ? 'var(--gold)' : 'rgba(255,255,255,0.8)',
+                    background: location.pathname === item.path ? 'rgba(212,160,23,0.15)' : 'transparent',
+                    transition: 'all 0.2s'
+                  }}
+                >
+                  {item.icon} {item.label}
+                </Link>
+              ))}
+            </div>
+
+            {/* User + Logout */}
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <span style={{ color: 'rgba(255,255,255,0.7)', fontSize: '0.8rem', display: 'none' }} className="user-name">
                 Hi, {user?.name?.split(' ')[0]}
               </span>
               <button
                 onClick={logout}
-                className="p-2 text-gray-400 hover:text-gray-500 rounded-full hover:bg-gray-100"
                 title="Logout"
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '0.4rem',
+                  background: 'rgba(255,255,255,0.1)', border: '1px solid rgba(255,255,255,0.2)',
+                  color: 'white', padding: '0.4rem 0.75rem', borderRadius: 'var(--radius-sm)',
+                  cursor: 'pointer', fontSize: '0.8rem', fontWeight: 500, fontFamily: 'Inter, sans-serif'
+                }}
               >
-                <LogOut className="w-5 h-5" />
+                <LogOut size={15} /> Logout
               </button>
             </div>
           </div>
         </div>
-        
-        {/* Mobile menu */}
-        <div className="sm:hidden border-t">
-          <div className="flex justify-around py-2">
-            {navItems.map((item) => (
-              <Link
-                key={item.path}
-                to={item.path}
-                className={`flex flex-col items-center p-2 rounded-md ${
-                  location.pathname === item.path
-                    ? 'text-blue-600 bg-blue-50'
-                    : 'text-gray-500 hover:text-gray-900 hover:bg-gray-100'
-                }`}
-              >
-                {item.icon}
-                <span className="text-xs mt-1 font-medium">{item.label}</span>
-              </Link>
-            ))}
-          </div>
-        </div>
       </nav>
 
+      {/* Mobile Bottom Nav */}
+      <div style={{
+        display: 'flex', position: 'fixed', bottom: 0, left: 0, right: 0,
+        background: 'var(--primary)', zIndex: 50, boxShadow: '0 -2px 12px rgba(139,26,26,0.3)'
+      }} className="mobile-nav">
+        {navItems.map((item) => (
+          <Link
+            key={item.path}
+            to={item.path}
+            style={{
+              flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center',
+              justifyContent: 'center', padding: '0.75rem 0.5rem', textDecoration: 'none',
+              color: location.pathname === item.path ? 'var(--gold)' : 'rgba(255,255,255,0.6)',
+              fontSize: '0.65rem', fontWeight: 600, gap: '0.3rem',
+              borderTop: location.pathname === item.path ? '2px solid var(--gold)' : '2px solid transparent',
+              transition: 'all 0.2s'
+            }}
+          >
+            {item.icon}
+            {item.label}
+          </Link>
+        ))}
+      </div>
+
       {/* Main Content */}
-      <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8">
+      <main style={{ flex: 1, maxWidth: '1200px', width: '100%', margin: '0 auto', padding: '1.5rem 1rem 5rem 1rem' }}>
         <Outlet />
       </main>
+
+      <style>{`
+        @media (min-width: 640px) {
+          .mobile-nav { display: none !important; }
+          .desktop-nav { display: flex !important; }
+          .user-name { display: block !important; }
+        }
+        @media (max-width: 639px) {
+          .desktop-nav { display: none !important; }
+        }
+      `}</style>
     </div>
   );
 };

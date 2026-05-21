@@ -47,44 +47,48 @@ const Menu = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
+        <Loader2 size={32} className="spinner" style={{ color: 'var(--primary)' }} />
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h1 className="text-2xl font-bold text-gray-900">Today's Menu</h1>
+    <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }} className="sm:flex-row sm:items-center sm:justify-between">
+        <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--primary)' }}>Today's Menu</h1>
         
-        <div className="flex w-full sm:w-auto gap-4">
-          <div className="relative flex-1 sm:w-64">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-4 w-4 text-gray-400" />
+        <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+          <div style={{ position: 'relative', flex: '1 1 200px' }}>
+            <div style={{ position: 'absolute', left: '0.75rem', top: '50%', transform: 'translateY(-50%)' }}>
+              <Search size={16} color="var(--text-muted)" />
             </div>
             <input
               type="text"
               placeholder="Search food..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500 sm:text-sm"
+              className="form-input"
+              style={{ paddingLeft: '2.25rem' }}
             />
           </div>
         </div>
       </div>
 
       {/* Categories */}
-      <div className="flex overflow-x-auto pb-2 gap-2 hide-scrollbar">
+      <div className="hide-scrollbar" style={{ display: 'flex', overflowX: 'auto', gap: '0.5rem', paddingBottom: '0.5rem' }}>
         {categories.map(c => (
           <button
             key={c}
             onClick={() => setCategory(c)}
-            className={`px-4 py-2 rounded-full whitespace-nowrap text-sm font-medium transition-colors ${
-              category === c
-                ? 'bg-blue-600 text-white shadow-sm'
-                : 'bg-white text-gray-700 border hover:bg-gray-50'
-            }`}
+            style={{
+              padding: '0.4rem 1rem', borderRadius: '999px', whiteSpace: 'nowrap',
+              fontSize: '0.875rem', fontWeight: 600, border: '1px solid',
+              transition: 'all 0.2s', cursor: 'pointer', fontFamily: 'Inter, sans-serif',
+              ...(category === c 
+                ? { background: 'var(--primary)', color: 'white', borderColor: 'var(--primary)' }
+                : { background: 'var(--surface)', color: 'var(--text-muted)', borderColor: 'var(--border)' })
+            }}
           >
             {c}
           </button>
@@ -92,31 +96,51 @@ const Menu = () => {
       </div>
 
       {/* Menu Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div style={{ 
+        display: 'grid', gap: '1.25rem',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))' 
+      }}>
         {filteredItems.map(item => (
-          <div key={item._id} className="bg-white rounded-xl shadow-sm border overflow-hidden hover:shadow-md transition-shadow flex flex-col">
-            <img src={item.image} alt={item.name} className="w-full h-48 object-cover" />
-            <div className="p-4 flex flex-col flex-1">
-              <div className="flex justify-between items-start mb-2">
-                <h3 className="font-semibold text-lg text-gray-900">{item.name}</h3>
-                <span className="font-bold text-blue-600">₹{item.price}</span>
+          <div key={item._id} className="card" style={{ display: 'flex', flexDirection: 'column' }}>
+            <div style={{ position: 'relative', paddingTop: '60%', overflow: 'hidden' }}>
+              <img 
+                src={item.image || 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=500&q=60'} 
+                alt={item.name} 
+                style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} 
+              />
+            </div>
+            <div style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', flex: 1, gap: '0.5rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', gap: '1rem' }}>
+                <h3 style={{ fontSize: '1.125rem', fontWeight: 700, margin: 0, lineHeight: 1.2 }}>{item.name}</h3>
+                <span style={{ fontWeight: 800, color: 'var(--gold)', fontSize: '1.125rem' }}>₹{item.price}</span>
               </div>
-              <p className="text-sm text-gray-500 mb-4 line-clamp-2 flex-1">{item.description}</p>
+              <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', margin: 0, flex: 1, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                {item.description}
+              </p>
               <button
                 onClick={() => addToCart(item)}
-                className="w-full flex items-center justify-center gap-2 bg-blue-50 text-blue-700 py-2 rounded-lg font-medium hover:bg-blue-100 transition-colors mt-auto"
+                className="btn-primary"
+                style={{ width: '100%', justifyContent: 'center', marginTop: '0.5rem' }}
               >
-                <Plus className="w-4 h-4" /> Add to Cart
+                <Plus size={16} /> Add to Cart
               </button>
             </div>
           </div>
         ))}
         {filteredItems.length === 0 && (
-          <div className="col-span-full py-12 text-center text-gray-500">
+          <div style={{ gridColumn: '1 / -1', padding: '4rem 1rem', textAlign: 'center', color: 'var(--text-muted)' }}>
             No items found matching your criteria.
           </div>
         )}
       </div>
+      
+      <style>{`
+        @media (min-width: 640px) {
+          .sm\\:flex-row { flex-direction: row !important; }
+          .sm\\:items-center { align-items: center !important; }
+          .sm\\:justify-between { justify-content: space-between !important; }
+        }
+      `}</style>
     </div>
   );
 };
