@@ -10,8 +10,8 @@ dotenv.config();
 const sampleUsers = [
   {
     name: 'Admin User',
-    email: 'puneethprv7@gmail.com',
-    password: '1234',
+    email: 'koustubh@gmail.com',
+    password: '12345',
     role: 'admin',
   },
   {
@@ -63,7 +63,7 @@ const sampleFoodItems = [
 const importData = async () => {
   try {
     // Check if data already exists to prevent duplicate seeding
-    const adminExists = await User.findOne({ email: 'puneethprv7@gmail.com' });
+    const adminExists = await User.findOne({ email: 'koustubh@gmail.com' });
     if (adminExists) {
       console.log('Data already exists, skipping seed.');
       return;
