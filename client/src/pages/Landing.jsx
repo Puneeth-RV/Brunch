@@ -15,7 +15,7 @@ const Landing = () => {
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 1rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '64px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-              <img src="/logo.png" alt="Brunch Logo" style={{ height: '40px', width: '40px', objectFit: 'contain' }} />
+              <img src="/logo.png" alt="Brunch Logo" style={{ height: '40px', width: '40px', objectFit: 'contain', borderRadius: '12px' }} />
               <span style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--gold)', letterSpacing: '-0.5px' }}>Brunch</span>
             </div>
             <div style={{ display: 'flex', gap: '0.75rem' }}>
@@ -52,7 +52,7 @@ const Landing = () => {
       }}>
         <div style={{ maxWidth: '700px', margin: '0 auto' }}>
           <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem' }}>
-            <img src="/logo.png" alt="Brunch" style={{ height: '80px', width: '80px', objectFit: 'contain' }} />
+            <img src="/logo.png" alt="Brunch" style={{ height: '80px', width: '80px', objectFit: 'contain', borderRadius: '24px' }} />
           </div>
           <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: 800, color: 'white', lineHeight: 1.2, marginBottom: '1rem' }}>
             Welcome to <span style={{ color: 'var(--gold)' }}>Brunch</span>

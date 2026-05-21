@@ -25,7 +25,7 @@ const StudentLayout = () => {
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '60px' }}>
             {/* Logo */}
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-              <img src="/logo.png" alt="Brunch" style={{ height: '34px', width: '34px', objectFit: 'contain' }} />
+              <img src="/logo.png" alt="Brunch" style={{ height: '34px', width: '34px', objectFit: 'contain', borderRadius: '12px' }} />
               <span style={{ color: 'var(--gold)', fontWeight: 800, fontSize: '1.25rem' }}>Brunch</span>
             </div>
 
