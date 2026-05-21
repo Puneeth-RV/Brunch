@@ -35,14 +35,14 @@ const sampleFoodItems = [
     description: 'Crispy rice crepe with potato filling and fresh chutney.',
     price: 60,
     category: 'Breakfast',
-    image: 'https://images.unsplash.com/photo-1589301760014-d929f39ce9b1?auto=format&fit=crop&q=80&w=800',
+    image: 'https://placehold.co/800x800/8B1A1A/D4A017?text=Masala+Dosa&font=raleway',
   },
   {
     name: 'Cold Coffee',
     description: 'Refreshing iced coffee blended to perfection.',
     price: 50,
     category: 'Beverages',
-    image: 'https://images.unsplash.com/photo-1461023058943-0708e521d8b6?auto=format&fit=crop&q=80&w=800',
+    image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&q=80&w=800',
   },
   {
     name: 'Veg Burger',
@@ -63,7 +63,7 @@ const sampleFoodItems = [
     description: 'Rich and creamy curry made with paneer, spices, and butter.',
     price: 120,
     category: 'Main Course',
-    image: 'https://images.unsplash.com/photo-1631452180519-c014fe946bc0?auto=format&fit=crop&q=80&w=800',
+    image: 'https://placehold.co/800x800/8B1A1A/D4A017?text=Paneer+Butter+Masala&font=raleway',
   },
   {
     name: 'Chicken Biryani',
@@ -98,7 +98,7 @@ const sampleFoodItems = [
     description: 'Steamed rice cakes served with hot lentil soup.',
     price: 40,
     category: 'Breakfast',
-    image: 'https://images.unsplash.com/photo-1589301760014-d929f39ce9b1?auto=format&fit=crop&q=80&w=800',
+    image: 'https://placehold.co/800x800/8B1A1A/D4A017?text=Idli+Sambar&font=raleway',
   },
   {
     name: 'Fresh Lime Soda',
