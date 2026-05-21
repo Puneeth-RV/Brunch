@@ -107,7 +107,7 @@ const ManageOrders = () => {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                   {order.items.map((item, idx) => (
                     <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.875rem' }}>
-                      <span style={{ color: 'var(--text)' }}>{item.quantity}x {item.menuItem?.name || 'Item deleted'}</span>
+                      <span style={{ color: 'var(--text)' }}>{item.quantity}x {item.name || 'Item deleted'}</span>
                       <span style={{ color: 'var(--text-muted)' }}>₹{item.price * item.quantity}</span>
                     </div>
                   ))}

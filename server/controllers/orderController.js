@@ -48,7 +48,6 @@ const getOrders = async (req, res) => {
   try {
     const orders = await Order.find({})
       .populate('user', 'id name')
-      .populate('items.menuItem', 'name price')
       .sort({ createdAt: -1 });
     res.json(orders);
   } catch (error) {

@@ -43,7 +43,8 @@ const Cart = () => {
     
     try {
       const orderItems = cart.map(item => ({
-        menuItem: item._id,
+        foodItem: item._id,
+        name: item.name,
         quantity: item.quantity,
         price: item.price
       }));

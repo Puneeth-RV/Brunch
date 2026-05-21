@@ -64,7 +64,7 @@ const Orders = () => {
               </div>
 
               <div style={{ fontSize: '0.9rem' }}>
-                {order.items.map(item => item.menuItem.name).join(', ')}
+                {order.items.map(item => item.name).join(', ')}
               </div>
             </div>
 

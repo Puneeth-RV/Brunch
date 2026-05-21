@@ -101,7 +101,7 @@ const Dashboard = () => {
                       {order.user?.name}
                     </div>
                     <div style={{ fontSize: '0.875rem', color: 'var(--text-muted)' }}>
-                      {order.items.map(item => `${item.quantity}x ${item.menuItem.name}`).join(', ')}
+                      {order.items.map(item => `${item.quantity}x ${item.name}`).join(', ')}
                     </div>
                   </div>
 

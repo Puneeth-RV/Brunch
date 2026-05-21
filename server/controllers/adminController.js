@@ -17,8 +17,7 @@ const getStats = async (req, res) => {
 
     const recentOrders = await Order.find({ status: { $ne: 'Completed' } })
       .sort({ createdAt: 1 })
-      .populate('user', 'name')
-      .populate('items.menuItem', 'name');
+      .populate('user', 'name');
 
     res.json({
       totalOrders,
