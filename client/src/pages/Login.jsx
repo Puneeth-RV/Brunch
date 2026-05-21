@@ -32,7 +32,7 @@ const Login = () => {
       {/* Header */}
       <div style={{ background: 'var(--primary)', padding: '1rem', display: 'flex', justifyContent: 'center' }}>
         <Link to="/" style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', textDecoration: 'none' }}>
-          <img src="/logo.png" alt="Brunch" style={{ height: '36px', width: '36px', objectFit: 'contain', backgroundColor: '#ffffff', borderRadius: '8px', padding: '2px' }} />
+          <img src="/logo.png" alt="Brunch" style={{ height: '36px', width: '36px', objectFit: 'contain' }} />
           <span style={{ color: 'var(--gold)', fontWeight: 800, fontSize: '1.5rem' }}>Brunch</span>
         </Link>
       </div>
