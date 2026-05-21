@@ -6,14 +6,24 @@ const connectDB = require('./config/db');
 // Load env vars
 dotenv.config();
 
-// Connect to database
-connectDB().then(() => {
-  // Auto-seed data
-  const seedData = require('./seed');
-  seedData();
-});
-
 const app = express();
+
+// Database connection state
+let dbInitialized = false;
+
+app.use(async (req, res, next) => {
+  if (!dbInitialized) {
+    try {
+      await connectDB();
+      const seedData = require('./seed');
+      await seedData();
+      dbInitialized = true;
+    } catch (error) {
+      console.error('DB Initialization failed:', error);
+    }
+  }
+  next();
+});
 
 // Middleware
 app.use(express.json());
