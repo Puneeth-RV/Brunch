@@ -106,7 +106,7 @@ const OrderStatus = () => {
         <div>
           <h3 style={{ fontSize: '1.125rem', fontWeight: 800, marginBottom: '1rem' }}>Order Details</h3>
           <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            {order.items.map(item => (
+            {order.items?.map(item => (
               <div key={item._id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.875rem' }}>
                 <span style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
                   <span style={{ fontWeight: 600, background: 'var(--surface-2)', padding: '0.1rem 0.4rem', borderRadius: '4px' }}>{item.quantity}x</span>

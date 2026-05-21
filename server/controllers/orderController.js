@@ -74,4 +74,26 @@ const updateOrderStatus = async (req, res) => {
   }
 };
 
-module.exports = { createOrder, getMyOrders, getOrders, updateOrderStatus };
+// @desc    Get order by ID
+// @route   GET /api/orders/:id
+// @access  Private
+const getOrderById = async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id).populate('user', 'name email');
+
+    if (order) {
+      // Ensure user only sees their own order, unless they are admin
+      if (order.user._id.toString() === req.user._id.toString() || req.user.role === 'admin') {
+        res.json(order);
+      } else {
+        res.status(401).json({ message: 'Not authorized to view this order' });
+      }
+    } else {
+      res.status(404).json({ message: 'Order not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+module.exports = { createOrder, getMyOrders, getOrders, updateOrderStatus, getOrderById };
