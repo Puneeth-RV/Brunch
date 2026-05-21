@@ -101,80 +101,79 @@ const ManageMenu = () => {
 
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
+        <Loader2 size={32} className="spinner" style={{ color: 'var(--primary)' }} />
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-bold text-gray-900">Manage Menu</h1>
+    <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--primary)', margin: 0 }}>Manage Menu</h1>
         <button
           onClick={() => openModal()}
-          className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-blue-500 transition-colors"
+          className="btn-primary"
         >
-          <Plus className="w-4 h-4" /> Add Item
+          <Plus size={16} /> <span className="hidden sm:inline">Add Item</span>
         </button>
       </div>
 
-      <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
+      <div className="card" style={{ overflow: 'hidden' }}>
+        <div style={{ overflowX: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left' }}>
+            <thead style={{ background: 'var(--surface-2)' }}>
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Item</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Category</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Price</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">Actions</th>
+                <th style={{ padding: '1rem', fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700 }}>Item</th>
+                <th style={{ padding: '1rem', fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700 }}>Category</th>
+                <th style={{ padding: '1rem', fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700 }}>Price</th>
+                <th style={{ padding: '1rem', fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700 }}>Status</th>
+                <th style={{ padding: '1rem', fontSize: '0.75rem', textTransform: 'uppercase', color: 'var(--text-muted)', fontWeight: 700, textAlign: 'right' }}>Actions</th>
               </tr>
             </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
+            <tbody>
               {items.map((item) => (
-                <tr key={item._id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <div className="flex items-center">
-                      <div className="h-10 w-10 flex-shrink-0">
-                        <img className="h-10 w-10 rounded-full object-cover" src={item.image} alt="" />
-                      </div>
-                      <div className="ml-4">
-                        <div className="text-sm font-medium text-gray-900">{item.name}</div>
-                      </div>
+                <tr key={item._id} style={{ borderBottom: '1px solid var(--border)' }}>
+                  <td style={{ padding: '1rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+                      <img src={item.image || 'https://via.placeholder.com/40'} alt="" style={{ width: '40px', height: '40px', borderRadius: '50%', objectFit: 'cover' }} />
+                      <span style={{ fontWeight: 600, fontSize: '0.875rem' }}>{item.name}</span>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-gray-100 text-gray-800">
+                  <td style={{ padding: '1rem', fontSize: '0.875rem' }}>
+                    <span style={{ background: 'var(--surface-2)', padding: '0.2rem 0.5rem', borderRadius: 'var(--radius-sm)', fontWeight: 500 }}>
                       {item.category}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                  <td style={{ padding: '1rem', fontSize: '0.875rem', fontWeight: 600, color: 'var(--text)' }}>
                     ₹{item.price}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                      item.available ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-                    }`}>
+                  <td style={{ padding: '1rem' }}>
+                    <span style={{ 
+                      padding: '0.2rem 0.5rem', borderRadius: 'var(--radius-sm)', fontSize: '0.75rem', fontWeight: 600,
+                      background: item.available ? 'rgba(6,95,70,0.1)' : 'rgba(139,26,26,0.1)',
+                      color: item.available ? '#065F46' : 'var(--primary)'
+                    }}>
                       {item.available ? 'Available' : 'Unavailable'}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <button
-                      onClick={() => openModal(item)}
-                      className="text-blue-600 hover:text-blue-900 mr-4"
-                    >
-                      <Edit2 className="w-4 h-4" />
+                  <td style={{ padding: '1rem', textAlign: 'right' }}>
+                    <button onClick={() => openModal(item)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--gold)', marginRight: '1rem' }}>
+                      <Edit2 size={18} />
                     </button>
-                    <button
-                      onClick={() => handleDelete(item._id)}
-                      className="text-red-600 hover:text-red-900"
-                    >
-                      <Trash2 className="w-4 h-4" />
+                    <button onClick={() => handleDelete(item._id)} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--primary)' }}>
+                      <Trash2 size={18} />
                     </button>
                   </td>
                 </tr>
               ))}
+              {items.length === 0 && (
+                <tr>
+                  <td colSpan="5" style={{ padding: '3rem 1rem', textAlign: 'center', color: 'var(--text-muted)' }}>
+                    No menu items found.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -182,97 +181,105 @@ const ManageMenu = () => {
 
       {/* Modal */}
       {isModalOpen && (
-        <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl shadow-xl max-w-md w-full overflow-hidden">
-            <div className="flex justify-between items-center p-6 border-b">
-              <h2 className="text-xl font-bold text-gray-900">
+        <div style={{ position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', zIndex: 100 }}>
+          <div className="card" style={{ width: '100%', maxWidth: '500px', padding: 0, overflow: 'hidden' }}>
+            <div style={{ padding: '1.25rem', borderBottom: '1px solid var(--border)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <h2 style={{ fontSize: '1.25rem', fontWeight: 800, margin: 0 }}>
                 {isEditing ? 'Edit Menu Item' : 'Add Menu Item'}
               </h2>
-              <button onClick={closeModal} className="text-gray-400 hover:text-gray-500">
-                <X className="w-6 h-6" />
+              <button onClick={closeModal} style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--text-muted)' }}>
+                <X size={20} />
               </button>
             </div>
-            <form onSubmit={handleSubmit} className="p-6 space-y-4">
+            
+            <form onSubmit={handleSubmit} style={{ padding: '1.25rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
               <div>
-                <label className="block text-sm font-medium text-gray-700">Name</label>
+                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, marginBottom: '0.5rem' }}>Name</label>
                 <input
                   type="text"
                   name="name"
                   required
                   value={formData.name}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                  className="form-input"
                 />
               </div>
+              
               <div>
-                <label className="block text-sm font-medium text-gray-700">Description</label>
+                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, marginBottom: '0.5rem' }}>Description</label>
                 <textarea
                   name="description"
                   required
                   value={formData.description}
                   onChange={handleInputChange}
                   rows={2}
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                  className="form-input"
+                  style={{ resize: 'vertical' }}
                 />
               </div>
-              <div className="grid grid-cols-2 gap-4">
+
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Price (₹)</label>
+                  <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, marginBottom: '0.5rem' }}>Price (₹)</label>
                   <input
                     type="number"
                     name="price"
                     required
                     value={formData.price}
                     onChange={handleInputChange}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    className="form-input"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700">Category</label>
+                  <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, marginBottom: '0.5rem' }}>Category</label>
                   <input
                     type="text"
                     name="category"
                     required
                     value={formData.category}
                     onChange={handleInputChange}
-                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                    className="form-input"
                   />
                 </div>
               </div>
+
               <div>
-                <label className="block text-sm font-medium text-gray-700">Image URL</label>
+                <label style={{ display: 'block', fontSize: '0.875rem', fontWeight: 600, marginBottom: '0.5rem' }}>Image URL</label>
                 <input
                   type="text"
                   name="image"
                   value={formData.image}
                   onChange={handleInputChange}
-                  className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
+                  className="form-input"
                 />
               </div>
-              <div className="flex items-center">
+
+              <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginTop: '0.5rem' }}>
                 <input
                   type="checkbox"
                   name="available"
                   id="available"
                   checked={formData.available}
                   onChange={handleInputChange}
-                  className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                  style={{ width: '1rem', height: '1rem', accentColor: 'var(--primary)' }}
                 />
-                <label htmlFor="available" className="ml-2 block text-sm text-gray-900">
+                <label htmlFor="available" style={{ fontSize: '0.875rem', fontWeight: 500 }}>
                   Available for ordering
                 </label>
               </div>
-              <div className="mt-6 flex justify-end gap-3">
+
+              <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '0.75rem', marginTop: '1rem' }}>
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50"
+                  style={{ padding: '0.5rem 1rem', border: '1px solid var(--border)', background: 'var(--bg)', borderRadius: 'var(--radius-sm)', fontWeight: 600, cursor: 'pointer' }}
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-500"
+                  className="btn-primary"
+                  style={{ padding: '0.5rem 1rem' }}
                 >
                   {isEditing ? 'Save Changes' : 'Add Item'}
                 </button>
@@ -281,6 +288,11 @@ const ManageMenu = () => {
           </div>
         </div>
       )}
+      <style>{`
+        @media (max-width: 639px) {
+          .hidden.sm\\:inline { display: none !important; }
+        }
+      `}</style>
     </div>
   );
 };

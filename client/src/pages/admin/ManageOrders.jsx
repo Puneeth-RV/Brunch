@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import toast from 'react-hot-toast';
-import { Loader2, RefreshCw } from 'lucide-react';
+import { Loader2, RefreshCw, Eye } from 'lucide-react';
 
 const ManageOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -46,33 +46,24 @@ const ManageOrders = () => {
 
   const statuses = ['Pending', 'Preparing', 'Ready', 'Completed'];
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'Pending': return 'bg-yellow-100 text-yellow-800';
-      case 'Preparing': return 'bg-orange-100 text-orange-800';
-      case 'Ready': return 'bg-blue-100 text-blue-800';
-      case 'Completed': return 'bg-green-100 text-green-800';
-      default: return 'bg-gray-100 text-gray-800';
-    }
-  };
-
   if (loading) {
     return (
-      <div className="flex justify-center items-center h-64">
-        <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '60vh' }}>
+        <Loader2 size={32} className="spinner" style={{ color: 'var(--primary)' }} />
       </div>
     );
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <h1 className="text-2xl font-bold text-gray-900">Manage Orders</h1>
-        <div className="flex items-center gap-4">
+    <div className="fade-in" style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }} className="sm:flex-row sm:items-center sm:justify-between">
+        <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--primary)', margin: 0 }}>Manage Orders</h1>
+        <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md"
+            className="form-input"
+            style={{ minWidth: '150px' }}
           >
             <option value="All">All Statuses</option>
             {statuses.map(s => <option key={s} value={s}>{s}</option>)}
@@ -80,73 +71,93 @@ const ManageOrders = () => {
           <button
             onClick={handleRefresh}
             disabled={refreshing}
-            className="flex items-center gap-2 px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            className="btn-primary"
+            style={{ padding: '0.5rem' }}
           >
-            <RefreshCw className={`w-4 h-4 ${refreshing ? 'animate-spin' : ''}`} />
+            <RefreshCw size={20} className={refreshing ? 'spinner' : ''} />
           </button>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
         {filteredOrders.map(order => (
-          <div key={order._id} className="bg-white rounded-xl shadow-sm border p-6 flex flex-col h-full">
-            <div className="flex justify-between items-start mb-4">
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <h3 className="text-xl font-bold text-gray-900">Token: {order.tokenNumber}</h3>
-                  <span className={`px-2.5 py-0.5 rounded-full text-xs font-medium ${getStatusColor(order.status)}`}>
-                    {order.status}
-                  </span>
+          <div key={order._id} className="card" style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+            <div style={{ padding: '1.5rem', flex: 1 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.25rem' }}>
+                    <h3 style={{ fontSize: '1.125rem', fontWeight: 800, margin: 0 }}>
+                      #{order.tokenNumber || order._id.substring(order._id.length - 4).toUpperCase()}
+                    </h3>
+                    <span className={`badge badge-${order.status.toLowerCase()}`}>
+                      {order.status}
+                    </span>
+                  </div>
+                  <p style={{ fontSize: '0.875rem', color: 'var(--text-muted)', margin: 0 }}>
+                    {new Date(order.createdAt).toLocaleString()} • {order.user?.name || 'Unknown Student'}
+                  </p>
                 </div>
-                <p className="text-sm text-gray-500">
-                  {new Date(order.createdAt).toLocaleString()} • {order.user?.name || 'Unknown Student'}
-                </p>
+                <div style={{ fontSize: '1.25rem', fontWeight: 800, color: 'var(--gold)' }}>
+                  ₹{order.totalAmount}
+                </div>
               </div>
-              <div className="text-xl font-bold text-blue-600">
-                ₹{order.totalAmount}
+
+              <div style={{ padding: '1rem 0', borderTop: '1px solid var(--border)', borderBottom: '1px solid var(--border)', margin: '1rem 0' }}>
+                <h4 style={{ fontSize: '0.875rem', fontWeight: 700, margin: '0 0 0.5rem 0' }}>Order Items</h4>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  {order.items.map((item, idx) => (
+                    <div key={idx} style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.875rem' }}>
+                      <span style={{ color: 'var(--text)' }}>{item.quantity}x {item.menuItem?.name || 'Item deleted'}</span>
+                      <span style={{ color: 'var(--text-muted)' }}>₹{item.price * item.quantity}</span>
+                    </div>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            <div className="border-t border-b py-4 my-4 flex-1">
-              <h4 className="text-sm font-semibold text-gray-900 mb-2">Order Items:</h4>
-              <ul className="space-y-2">
-                {order.items.map((item, idx) => (
-                  <li key={idx} className="flex justify-between text-sm">
-                    <span className="text-gray-600">{item.quantity}x {item.name}</span>
-                    <span className="text-gray-500">₹{item.price * item.quantity}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div>
-              <h4 className="text-sm font-semibold text-gray-900 mb-2">Update Status:</h4>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                {statuses.map(status => (
-                  <button
-                    key={status}
-                    onClick={() => updateStatus(order._id, status)}
-                    disabled={order.status === status}
-                    className={`px-2 py-2 text-xs font-medium rounded-md border transition-colors ${
-                      order.status === status
-                        ? getStatusColor(status) + ' border-transparent cursor-default'
-                        : 'bg-white text-gray-700 border-gray-300 hover:bg-gray-50'
-                    }`}
-                  >
-                    {status}
-                  </button>
-                ))}
+              <div>
+                <h4 style={{ fontSize: '0.875rem', fontWeight: 700, margin: '0 0 0.5rem 0' }}>Update Status</h4>
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.5rem' }}>
+                  {statuses.map(status => (
+                    <button
+                      key={status}
+                      onClick={() => updateStatus(order._id, status)}
+                      disabled={order.status === status}
+                      style={{
+                        padding: '0.5rem',
+                        fontSize: '0.75rem',
+                        fontWeight: 600,
+                        borderRadius: 'var(--radius-sm)',
+                        border: '1px solid',
+                        cursor: order.status === status ? 'default' : 'pointer',
+                        transition: 'all 0.2s',
+                        background: order.status === status ? 'var(--primary)' : 'transparent',
+                        color: order.status === status ? 'white' : 'var(--text-muted)',
+                        borderColor: order.status === status ? 'var(--primary)' : 'var(--border)'
+                      }}
+                    >
+                      {status}
+                    </button>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
         ))}
 
         {filteredOrders.length === 0 && (
-          <div className="col-span-full py-12 text-center text-gray-500 bg-white rounded-xl border border-dashed">
+          <div style={{ gridColumn: '1 / -1', padding: '4rem 1rem', textAlign: 'center', color: 'var(--text-muted)', background: 'var(--surface)', borderRadius: 'var(--radius-md)', border: '1px dashed var(--border)' }}>
             No orders found matching the selected filter.
           </div>
         )}
       </div>
+
+      <style>{`
+        @media (min-width: 640px) {
+          .sm\\:flex-row { flex-direction: row !important; }
+          .sm\\:items-center { align-items: center !important; }
+          .sm\\:justify-between { justify-content: space-between !important; }
+        }
+      `}</style>
     </div>
   );
 };

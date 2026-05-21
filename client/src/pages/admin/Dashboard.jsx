@@ -31,7 +31,7 @@ const Dashboard = () => {
 
   const updateOrderStatus = async (orderId, newStatus) => {
     try {
-      await axios.put(`/api/admin/orders/${orderId}`, { status: newStatus });
+      await axios.put(`/api/orders/${orderId}/status`, { status: newStatus });
       toast.success(`Order marked as ${newStatus}`);
       fetchStats();
     } catch (error) {

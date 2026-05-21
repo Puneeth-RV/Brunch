@@ -10,7 +10,7 @@ const Orders = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const { data } = await axios.get('/api/orders/myorders');
+        const { data } = await axios.get('/api/orders/my');
         setOrders(data);
       } catch (error) {
         console.error('Failed to load orders', error);
