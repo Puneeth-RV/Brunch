@@ -24,9 +24,19 @@ app.use('/api/menu', require('./routes/menuRoutes'));
 app.use('/api/orders', require('./routes/orderRoutes'));
 app.use('/api/admin', require('./routes/adminRoutes'));
 
-app.get('/', (req, res) => {
+const path = require('path');
+
+app.get('/health', (req, res) => {
   res.send('QueueLess API is running...');
 });
+
+// Serve React frontend in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../client/dist')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, '../client/dist', 'index.html'));
+  });
+}
 
 // Error handling middleware
 app.use((err, req, res, next) => {
