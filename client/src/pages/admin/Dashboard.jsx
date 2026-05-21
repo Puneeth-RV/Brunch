@@ -84,7 +84,7 @@ const Dashboard = () => {
         </div>
         
         <div style={{ padding: '1.5rem' }}>
-          {stats.recentOrders.length === 0 ? (
+          {(!stats.recentOrders || stats.recentOrders.length === 0) ? (
             <p style={{ textAlign: 'center', color: 'var(--text-muted)', margin: '2rem 0' }}>No active orders at the moment.</p>
           ) : (
             <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>

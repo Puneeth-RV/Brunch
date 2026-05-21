@@ -15,11 +15,17 @@ const getStats = async (req, res) => {
       .filter((o) => o.status === 'Completed')
       .reduce((acc, order) => acc + order.totalAmount, 0);
 
+    const recentOrders = await Order.find({ status: { $ne: 'Completed' } })
+      .sort({ createdAt: 1 })
+      .populate('user', 'name')
+      .populate('items.menuItem', 'name');
+
     res.json({
       totalOrders,
       pendingOrders,
       completedOrders,
-      totalRevenue,
+      revenue: totalRevenue,
+      recentOrders
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
