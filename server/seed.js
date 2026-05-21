@@ -64,6 +64,20 @@ const sampleFoodItems = [
     price: 60,
     category: 'Breakfast',
     image: 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?auto=format&fit=crop&q=80&w=800',
+  },
+  {
+    name: 'Chicken Kabab',
+    description: 'Juicy and spicy grilled chicken kababs.',
+    price: 140,
+    category: 'Snacks',
+    image: 'https://placehold.co/800x800/8B1A1A/D4A017?text=Chicken+Kabab&font=raleway',
+  },
+  {
+    name: 'Egg Roll',
+    description: 'Crispy paratha rolled with a spiced egg omelette and veggies.',
+    price: 70,
+    category: 'Snacks',
+    image: 'https://placehold.co/800x800/8B1A1A/D4A017?text=Egg+Roll&font=raleway',
   }
 ];
 
