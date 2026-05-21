@@ -34,7 +34,7 @@ const OrderStatus = () => {
     );
   }
 
-  if (!order) {
+  if (!order || typeof order !== 'object' || Array.isArray(order)) {
     return <div style={{ textAlign: 'center', marginTop: '4rem' }}>Order not found</div>;
   }
 
