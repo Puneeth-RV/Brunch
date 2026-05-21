@@ -8,20 +8,14 @@ const Signup = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { signup, user } = useContext(AuthContext);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (user) {
-      navigate('/student/menu', { replace: true });
-    }
-  }, [user, navigate]);
+  const { signup } = useContext(AuthContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     try {
       await signup(name, email, password);
+      window.location.href = '/student/menu';
     } catch (error) {
       console.error(error);
     } finally {
