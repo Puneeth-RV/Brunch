@@ -3,7 +3,7 @@ const { MongoMemoryServer } = require('mongodb-memory-server');
 
 const connectDB = async () => {
   try {
-    let uri = process.env.MONGO_URI;
+    let uri = process.env.MONGO_URI || 'mongodb://localhost:27017/brunch';
 
     if (uri && (uri.includes('localhost') || uri.includes('127.0.0.1'))) {
       const mongoServer = await MongoMemoryServer.create();
