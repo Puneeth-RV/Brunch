@@ -6,24 +6,13 @@ const connectDB = require('./config/db');
 // Load env vars
 dotenv.config();
 
-const app = express();
-
-// Database connection state
-let dbInitialized = false;
-
-app.use(async (req, res, next) => {
-  if (!dbInitialized) {
-    try {
-      await connectDB();
-      const seedData = require('./seed');
-      await seedData();
-      dbInitialized = true;
-    } catch (error) {
-      console.error('DB Initialization failed:', error);
-    }
-  }
-  next();
+// Connect to database and seed
+connectDB().then(() => {
+  const seedData = require('./seed');
+  seedData();
 });
+
+const app = express();
 
 // Middleware
 app.use(express.json());
@@ -50,11 +39,6 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5001;
 
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(PORT, () => {
-    console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
-  });
-}
-
-// Export for Vercel Serverless
-module.exports = app;
+app.listen(PORT, () => {
+  console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
+});

@@ -9,14 +9,13 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   // Set default axios base URL
-  axios.defaults.baseURL = import.meta.env.VITE_API_URL || (import.meta.env.PROD ? '' : 'http://localhost:5001');
+  axios.defaults.baseURL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
 
   useEffect(() => {
     const userInfo = localStorage.getItem('userInfo');
     if (userInfo) {
       const parsedUser = JSON.parse(userInfo);
       setUser(parsedUser);
-      // Set auth token in headers
       axios.defaults.headers.common['Authorization'] = `Bearer ${parsedUser.token}`;
     }
     setLoading(false);
